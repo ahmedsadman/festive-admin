@@ -37,7 +37,7 @@ const LoginForm = () => (
 						fluid
 						size='large'
 						as={Link}
-						to='/main'
+						to='/home'
 					>
 						Login
 					</Button>

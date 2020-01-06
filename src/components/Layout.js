@@ -4,7 +4,7 @@ import Menu from './Menu';
 
 class Layout extends Component {
 	state = {
-		activeItem: 'bio'
+		activeItem: 'Home'
 	};
 
 	handleItemClick = name => this.setState({ activeItem: name });

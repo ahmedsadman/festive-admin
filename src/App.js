@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Header } from 'semantic-ui-react';
 import { Route, Switch } from 'react-router-dom';
-import Login from './components/Login';
 import Layout from './components/Layout';
+import Login from './components/Login';
+import Events from './containers/Events';
 
 class App extends Component {
 	render() {
@@ -11,9 +12,16 @@ class App extends Component {
 				<Route exact path='/'>
 					<Login />
 				</Route>
-				<Route exact path='/main'>
+				<Route path='/'>
 					<Layout>
-						<Header>Hi</Header>
+						<Switch>
+							<Route path='/home'>
+								<Header>Hi</Header>
+							</Route>
+							<Route path='/events'>
+								<Events />
+							</Route>
+						</Switch>
 					</Layout>
 				</Route>
 			</Switch>
