@@ -1,43 +1,71 @@
 import React from 'react';
-import { Header, Form, Grid } from 'semantic-ui-react';
+import { Header, Form } from 'semantic-ui-react';
 
 const EventCreate = props => {
-	const { value, handleChange, title } = props;
+	const {
+		activeValue,
+		participationType,
+		title,
+		handleChange,
+		eventName,
+		rulebookURL,
+		collegeFee,
+		schoolFee,
+		generalFee
+	} = props;
+
+	const onChange = (e, { value, name }) => {
+		handleChange(name, value);
+		console.log(name, value);
+	};
+
 	return (
 		<React.Fragment>
 			<Header>{title}</Header>
 			<Form>
+				{/* In Form, control state field name (from parent) needs to be matched with 'name' field in Form element */}
 				<Form.Group widths='equal'>
 					<Form.Input
 						fluid
+						name='eventName'
 						label='Event Name'
+						value={eventName}
 						placeholder='My Event'
+						onChange={onChange}
 						required
 					/>
 				</Form.Group>
 				<Form.Group widths='equal'>
 					<Form.Input
 						fluid
+						name='generalFee'
+						value={generalFee}
 						label='General Fee'
-						placeholder='My Event'
-						required
+						onChange={onChange}
 					/>
 					<Form.Input
 						fluid
 						label='College Fee'
-						placeholder='My Event'
+						value={collegeFee}
+						name='collegeFee'
+						onChange={onChange}
 					/>
 					<Form.Input
 						fluid
-						label='Student Fee'
-						placeholder='My Event'
+						label='School Fee'
+						value={schoolFee}
+						name='schoolFee'
+						onChange={onChange}
 					/>
 				</Form.Group>
 				<Form.Group widths='equal'>
 					<Form.Input
 						fluid
+						name='rulebookURL'
+						value={rulebookURL}
 						label='Rulebook URL'
-						placeholder='My Event'
+						placeholder='http://example.com/rulebook.pdf'
+						onChange={onChange}
 						required
 					/>
 				</Form.Group>
@@ -46,14 +74,18 @@ const EventCreate = props => {
 					<Form.Radio
 						label='Yes'
 						value='yes'
-						checked={value === 'yes'}
-						onChange={handleChange}
+						checked={
+							activeValue === 'yes' || activeValue == null
+						} /* default check */
+						name='activeValue'
+						onChange={onChange}
 					/>
 					<Form.Radio
 						label='No'
 						value='no'
-						checked={value === 'no'}
-						onChange={handleChange}
+						checked={activeValue === 'no'}
+						name='activeValue'
+						onChange={onChange}
 					/>
 				</Form.Group>
 				<Form.Group inline>
@@ -61,20 +93,24 @@ const EventCreate = props => {
 					<Form.Radio
 						label='Single'
 						value='single'
-						checked={value === 'single'}
-						onChange={handleChange}
+						name='participationType'
+						checked={
+							participationType === 'single' ||
+							participationType == null
+						} /* default check */
+						onChange={onChange}
 					/>
 					<Form.Radio
 						label='Team'
 						value='team'
-						checked={value === 'team'}
-						onChange={handleChange}
+						name='participationType'
+						checked={participationType === 'team'}
+						onChange={onChange}
 					/>
 				</Form.Group>
-				<Form.Checkbox label='I agree to the Terms and Conditions' />
 
 				<Form.Button style={{ margin: '0.5em 0' }} primary>
-					Submit
+					Save
 				</Form.Button>
 			</Form>
 		</React.Fragment>
