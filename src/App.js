@@ -9,18 +9,14 @@ class App extends Component {
 	render() {
 		return (
 			<Switch>
-				<Route exact path='/'>
-					<Login />
-				</Route>
+				<Route exact path='/' component={Login} />
 				<Route path='/'>
 					<Layout>
 						<Switch>
 							<Route path='/home'>
 								<Header>Hi</Header>
 							</Route>
-							<Route path='/events'>
-								<Events />
-							</Route>
+							<Route path='/events' component={Events} />
 						</Switch>
 					</Layout>
 				</Route>
