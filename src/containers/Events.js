@@ -2,20 +2,25 @@ import React, { Component } from 'react';
 import axios from '../helpers/axios';
 import { Grid, Segment, Header } from 'semantic-ui-react';
 import EventForm from '../components/EventForm';
+import EventList from '../components/EventList';
 import api from '../config/api';
 
 class Events extends Component {
 	state = {
-		eventFormTitle: 'Create Event'
+		eventFormTitle: 'Create Event',
+		eventList: [],
+		listLoading: false
 	};
 
 	componentDidMount = () => {
-		this.getData();
+		this.fetchEventList();
 	};
 
-	getData = async () => {
+	fetchEventList = async () => {
+		this.setState({ listLoading: true });
 		const response = await axios.get(api.eventList);
 		console.log(response);
+		this.setState({ eventList: response.data.events, listLoading: false });
 	};
 
 	handleChange = (prop, value) => this.setState({ [prop]: value });
@@ -23,12 +28,15 @@ class Events extends Component {
 	render() {
 		return (
 			<Grid>
-				<Grid.Column width={8} stretched>
-					<Segment>
-						<Header>Part1</Header>
+				<Grid.Column width={9} stretched>
+					<Segment
+						style={{ border: 0, boxShadow: 'none' }}
+						loading={this.state.listLoading}
+					>
+						<EventList data={this.state.eventList} />
 					</Segment>
 				</Grid.Column>
-				<Grid.Column width={8} stretched>
+				<Grid.Column width={7}>
 					<Segment>
 						<EventForm
 							title={this.state.eventFormTitle}

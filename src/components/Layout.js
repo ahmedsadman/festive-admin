@@ -14,7 +14,7 @@ class Layout extends Component {
 
 		return (
 			<Grid style={{ padding: '1em' }}>
-				<Grid.Column width={4}>
+				<Grid.Column width={3}>
 					<Segment textAlign='center'>
 						<Header>ICT FEST - ADMIN</Header>
 						<Button primary>User</Button>
@@ -26,7 +26,7 @@ class Layout extends Component {
 					/>
 				</Grid.Column>
 
-				<Grid.Column stretched width={12}>
+				<Grid.Column stretched width={13}>
 					<Segment>{this.props.children}</Segment>
 				</Grid.Column>
 			</Grid>
