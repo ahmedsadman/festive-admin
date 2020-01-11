@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Header } from 'semantic-ui-react';
 import { Route, Switch } from 'react-router-dom';
 import Layout from './components/Layout';
-import Login from './components/Login';
+import Login from './containers/Login';
 import Events from './containers/Events';
 
 class App extends Component {

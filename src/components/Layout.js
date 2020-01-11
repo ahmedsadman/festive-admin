@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Segment, Button, Header, Grid } from 'semantic-ui-react';
+import { withRouter } from 'react-router-dom';
+import tokenservice from '../helpers/tokenservice';
 import Menu from './Menu';
 
 class Layout extends Component {
@@ -8,6 +10,11 @@ class Layout extends Component {
 	};
 
 	handleItemClick = name => this.setState({ activeItem: name });
+
+	onLogout = () => {
+		tokenservice.clearToken();
+		this.props.history.replace('/');
+	};
 
 	render() {
 		const { activeItem } = this.state;
@@ -18,7 +25,7 @@ class Layout extends Component {
 					<Segment textAlign='center'>
 						<Header>ICT FEST - ADMIN</Header>
 						<Button primary>User</Button>
-						<Button>Logout</Button>
+						<Button onClick={this.onLogout}>Logout</Button>
 					</Segment>
 					<Menu
 						activeItem={activeItem}
@@ -34,4 +41,4 @@ class Layout extends Component {
 	}
 }
 
-export default Layout;
+export default withRouter(Layout);

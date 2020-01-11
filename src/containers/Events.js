@@ -4,6 +4,7 @@ import { Grid, Segment, Header } from 'semantic-ui-react';
 import EventForm from '../components/EventForm';
 import EventList from '../components/EventList';
 import { API } from '../config/config';
+import tokenservice from '../helpers/tokenservice';
 
 class Events extends Component {
 	state = {
@@ -15,6 +16,7 @@ class Events extends Component {
 
 	componentDidMount = () => {
 		this.fetchEventList();
+		console.log('current token', tokenservice.getClaims());
 	};
 
 	fetchEventList = async () => {

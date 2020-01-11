@@ -28,9 +28,11 @@ const MenuBar = props => {
 				onClick={() => onItemClick('Operations')}
 			/>
 			<Menu.Item
-				name='Logout'
-				active={activeItem === 'Logout'}
-				onClick={() => onItemClick('Logout')}
+				name='Account'
+				as={Link}
+				to='/account'
+				active={activeItem === 'Account'}
+				onClick={() => onItemClick('Account')}
 			/>
 		</Menu>
 	);
