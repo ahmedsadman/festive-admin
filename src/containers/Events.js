@@ -16,7 +16,6 @@ class Events extends Component {
 
 	componentDidMount = () => {
 		this.fetchEventList();
-		console.log('current token', tokenservice.getClaims());
 	};
 
 	fetchEventList = async () => {

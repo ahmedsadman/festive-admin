@@ -1,9 +1,15 @@
 import jwtdecode from 'jwt-decode';
 
-/* A service class to handle access tokens (in-memory) */
+/* A service class to handle access tokens */
 class TokenService {
+	name = 'festive_token'; // used to store in localstorage
 	token = null;
 	decoded = null;
+
+	constructor() {
+		this.token = localStorage.getItem(this.name);
+		this.decoded = this.decodeToken();
+	}
 
 	getToken = () => {
 		return this.token;
@@ -12,14 +18,14 @@ class TokenService {
 	setToken = token => {
 		this.clearToken();
 		this.token = token;
+		this.decoded = this.decodeToken();
+		localStorage.setItem(this.name, token);
+		console.log('new token set');
 	};
 
 	decodeToken = () => {
-		if (this.decoded !== null) {
-			return this.decoded;
-		} else if (this.token !== null) {
+		if (this.token !== null) {
 			this.decoded = jwtdecode(this.token);
-			console.log('token decoded');
 			return this.decoded;
 		}
 		return null;
@@ -28,15 +34,20 @@ class TokenService {
 	clearToken = () => {
 		this.token = null;
 		this.decoded = null;
+		localStorage.removeItem(this.name);
 		console.log('tokens cleared');
 	};
 
 	getClaims = () => {
-		const decoded = this.decodeToken();
-		if (decoded) {
-			return decoded.user_claims;
+		if (this.decoded) {
+			return this.decoded.user_claims;
 		}
 		return null;
+	};
+
+	isValidToken = () => {
+		// check if token is expired
+		return this.decoded && this.decoded.exp - Date.now() / 1000 > 0;
 	};
 }
 

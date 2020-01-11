@@ -12,6 +12,12 @@ class Login extends Component {
 		loading: false
 	};
 
+	componentDidMount() {
+		if (tokenservice.isValidToken()) {
+			this.props.history.push('/home');
+		}
+	}
+
 	handleChange = (name, value) => {
 		this.setState({ [name]: value });
 	};
