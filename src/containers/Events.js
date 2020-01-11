@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import axios from '../helpers/axios';
-import { Grid, Segment, Header } from 'semantic-ui-react';
+import { axiosDefault } from '../helpers/axios';
+import { Grid, Segment } from 'semantic-ui-react';
 import EventForm from '../components/EventForm';
 import EventList from '../components/EventList';
-import api from '../config/api';
+import { API } from '../config/config';
 
 class Events extends Component {
 	state = {
@@ -18,7 +18,7 @@ class Events extends Component {
 
 	fetchEventList = async () => {
 		this.setState({ listLoading: true });
-		const response = await axios.get(api.eventList);
+		const response = await axiosDefault.get(API.eventList);
 		console.log(response);
 		this.setState({ eventList: response.data.events, listLoading: false });
 	};
