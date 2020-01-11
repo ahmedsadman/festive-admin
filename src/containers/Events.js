@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { axiosDefault } from '../helpers/axios';
-import { Grid, Segment } from 'semantic-ui-react';
+import { Grid, Segment, Header } from 'semantic-ui-react';
 import EventForm from '../components/EventForm';
 import EventList from '../components/EventList';
 import { API } from '../config/config';
@@ -8,8 +8,9 @@ import { API } from '../config/config';
 class Events extends Component {
 	state = {
 		eventFormTitle: 'Create Event',
-		eventList: [],
-		listLoading: false
+		eventList: null,
+		listLoading: false,
+		listError: null
 	};
 
 	componentDidMount = () => {
@@ -17,10 +18,17 @@ class Events extends Component {
 	};
 
 	fetchEventList = async () => {
-		this.setState({ listLoading: true });
-		const response = await axiosDefault.get(API.eventList);
-		console.log(response);
-		this.setState({ eventList: response.data.events, listLoading: false });
+		try {
+			this.setState({ listLoading: true });
+			const response = await axiosDefault.get(API.eventList);
+			console.log(response);
+			this.setState({
+				eventList: response.data.events,
+				listLoading: false
+			});
+		} catch (e) {
+			this.setState({ listError: e.message, listLoading: false });
+		}
 	};
 
 	handleChange = (prop, value) => this.setState({ [prop]: value });
@@ -33,7 +41,10 @@ class Events extends Component {
 						style={{ border: 0, boxShadow: 'none' }}
 						loading={this.state.listLoading}
 					>
-						<EventList data={this.state.eventList} />
+						<EventList
+							data={this.state.eventList}
+							error={this.state.listError}
+						/>
 					</Segment>
 				</Grid.Column>
 				<Grid.Column width={7}>
