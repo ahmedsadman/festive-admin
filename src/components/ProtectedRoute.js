@@ -1,11 +1,10 @@
 import React from 'react';
-import { Route, withRouter } from 'react-router-dom';
+import { Route, withRouter, Redirect } from 'react-router-dom';
 import tokenservice from '../helpers/tokenservice';
 
 const ProtectedRoute = ({
 	children,
 	location,
-	history,
 	component: Component,
 	...rest
 }) => {
@@ -19,13 +18,19 @@ const ProtectedRoute = ({
 					}
 					return children;
 				} else {
-					history.push({
-						pathname: '/',
-						state: {
-							message: 'You need to login to continue',
-							from: location
-						}
-					});
+					return (
+						/* Using history.push will cause bugs because history.push is 
+						kind of state update and should not be used inside render() */
+						<Redirect
+							to={{
+								pathname: '/',
+								state: {
+									message: 'You need to login to continue',
+									from: location
+								}
+							}}
+						/>
+					);
 				}
 			}}
 		/>
