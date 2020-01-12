@@ -32,10 +32,12 @@ class Login extends Component {
 		if (this.state.email === '' || this.state.password === '') {
 			return this.setState({ error: 'Please fill up all the fields' });
 		}
-		this.loginUser();
+		const { state } = this.props.location;
+		// login and redirect the user from where he came from
+		state && state.from ? this.loginUser(state.from) : this.loginUser();
 	};
 
-	loginUser = async () => {
+	loginUser = async (redirectPath = '/home') => {
 		try {
 			this.setState({ loading: true, error: null });
 			const bodyData = {
@@ -49,7 +51,7 @@ class Login extends Component {
 			if (response.status === 200) {
 				// save the token in memory
 				tokenservice.setToken(response.data.access_token);
-				this.props.history.push('/home');
+				this.props.history.push(redirectPath);
 			}
 		} catch (e) {
 			console.log(e.response);
@@ -58,9 +60,11 @@ class Login extends Component {
 	};
 
 	render() {
+		const { state } = this.props.location;
 		return (
 			<LoginForm
 				error={this.state.error}
+				message={state && state.message}
 				email={this.state.email}
 				password={this.state.password}
 				handleChange={this.handleChange}

@@ -16,7 +16,8 @@ const LoginForm = props => {
 		password,
 		handleChange,
 		onButtonClick,
-		loading
+		loading,
+		message
 	} = props;
 
 	const onChange = (e, { value, name }) => {
@@ -66,6 +67,7 @@ const LoginForm = props => {
 					</Segment>
 				</Form>
 				{error !== null && <Message negative>{error}</Message>}
+				{message && <Message info>{message}</Message>}
 			</Grid.Column>
 		</Grid>
 	);

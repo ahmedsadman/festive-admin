@@ -10,7 +10,13 @@ const errorResponse = error => {
 	}
 
 	// otherwise, force user to login
-	history.push('/');
+	history.push({
+		pathname: '/',
+		state: {
+			message: 'You need to login to continue',
+			from: history.location
+		}
+	});
 	return Promise.reject(error);
 };
 
