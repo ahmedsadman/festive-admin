@@ -22,7 +22,7 @@ const ProtectedRoute = ({
 					history.push({
 						pathname: '/',
 						state: {
-							loginRequired: true,
+							message: 'You need to login to continue',
 							from: location
 						}
 					});

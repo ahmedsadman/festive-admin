@@ -16,6 +16,7 @@ class Login extends Component {
 		if (tokenservice.isValidToken()) {
 			this.props.history.push('/home');
 		}
+		console.log(this.props);
 	}
 
 	handleChange = (name, value) => {

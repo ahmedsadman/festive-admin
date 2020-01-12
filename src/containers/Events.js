@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { axiosDefault } from '../helpers/axios';
-import { Grid, Segment, Header } from 'semantic-ui-react';
+import { Grid, Segment } from 'semantic-ui-react';
 import EventForm from '../components/EventForm';
 import EventList from '../components/EventList';
 import { API } from '../config/config';
-import tokenservice from '../helpers/tokenservice';
 
 class Events extends Component {
 	state = {
