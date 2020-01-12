@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { axiosDefault } from '../helpers/axios';
+import { axiosDefault, getCancelToken } from '../helpers/axios';
 import { Grid, Segment } from 'semantic-ui-react';
 import EventForm from '../components/EventForm';
 import EventList from '../components/EventList';
 import { API } from '../config/config';
 
 class Events extends Component {
+	cancelToken = getCancelToken();
 	state = {
 		eventFormTitle: 'Create Event',
 		eventList: null,
@@ -13,20 +14,27 @@ class Events extends Component {
 		listError: null
 	};
 
-	componentDidMount = () => {
+	componentDidMount() {
 		this.fetchEventList();
-	};
+	}
+
+	componentWillUnmount() {
+		this.cancelToken.cancel();
+	}
 
 	fetchEventList = async () => {
 		try {
 			this.setState({ listLoading: true });
-			const response = await axiosDefault.get(API.eventList);
+			const response = await axiosDefault.get(API.eventList, {
+				cancelToken: this.cancelToken.token
+			});
 			console.log(response);
 			this.setState({
 				eventList: response.data.events,
 				listLoading: false
 			});
 		} catch (e) {
+			console.log(e);
 			this.setState({ listError: e.message, listLoading: false });
 		}
 	};

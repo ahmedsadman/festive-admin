@@ -4,6 +4,7 @@ import history from '../helpers/history';
 
 const errorResponse = error => {
 	// return error to caller if error is non-auth
+	console.log('error is', error);
 	if (error.response.status !== 401) {
 		return Promise.reject(error);
 	}
@@ -16,5 +17,7 @@ const errorResponse = error => {
 export const axiosDefault = axios.create({
 	baseURL: API.baseURL
 });
+
+export const getCancelToken = () => axios.CancelToken.source();
 
 axiosDefault.interceptors.response.use(response => response, errorResponse);

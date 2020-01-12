@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { axiosDefault } from '../helpers/axios';
+import { axiosDefault, getCancelToken } from '../helpers/axios';
 import { API } from '../config/config';
 import tokenservice from '../helpers/tokenservice';
 import LoginForm from '../components/LoginForm';
 
 class Login extends Component {
+	cancelToken = getCancelToken(); // used with axios
 	state = {
 		error: null,
 		username: '',
@@ -17,6 +18,10 @@ class Login extends Component {
 			this.props.history.push('/home');
 		}
 		console.log(this.props);
+	}
+
+	componentWillUnmount() {
+		this.cancelToken.cancel();
 	}
 
 	handleChange = (name, value) => {
@@ -37,7 +42,9 @@ class Login extends Component {
 				username: this.state.username,
 				password: this.state.password
 			};
-			const response = await axiosDefault.post(API.login, bodyData);
+			const response = await axiosDefault.post(API.login, bodyData, {
+				cancelToken: this.cancelToken.token
+			});
 			console.log(response);
 			if (response.status === 200) {
 				// save the token in memory
