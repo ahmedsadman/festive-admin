@@ -78,7 +78,9 @@ class Events extends Component {
 			this.setState({ formLoading: false });
 			console.log(e);
 			console.log(e.response);
-			e.response && showToast('error', 'Error creating new event');
+			e.response &&
+				e.response.status !== 401 &&
+				showToast('error', 'Error creating new event');
 		}
 	};
 
@@ -94,10 +96,8 @@ class Events extends Component {
 			console.log(e);
 			console.log(e.response);
 			e.response &&
-				showToast(
-					'error',
-					'An error occured while trying to remove event'
-				);
+				e.response.status !== 401 &&
+				showToast('error', 'Error occured on event remove');
 		}
 	};
 

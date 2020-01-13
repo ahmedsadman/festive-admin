@@ -37,17 +37,14 @@ axiosAuth.interceptors.response.use(
 		}
 
 		// otherwise, force user to login
-		forceUserLogin();
+		console.log(history);
+		history.push({
+			pathname: '/',
+			state: {
+				message: 'You need to login to continue',
+				from: history.location
+			}
+		});
 		return Promise.reject(error);
 	}
 );
-
-const forceUserLogin = () => {
-	history.push({
-		pathname: '/',
-		state: {
-			message: 'You need to login to continue',
-			from: history.location
-		}
-	});
-};
