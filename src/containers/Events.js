@@ -4,6 +4,7 @@ import { Grid, Segment } from 'semantic-ui-react';
 import EventForm from '../components/EventForm';
 import EventList from '../components/EventList';
 import { API } from '../config/config';
+import { showToast } from '../helpers/sweetalert';
 
 class Events extends Component {
 	cancelToken = getCancelToken();
@@ -44,14 +45,32 @@ class Events extends Component {
 	createEvent = async () => {
 		try {
 			this.setState({ formLoading: true });
+			const {
+				eventName,
+				generalFee,
+				participationType,
+				activeValue,
+				collegeFee,
+				schoolFee,
+				rulebookURL
+			} = this.state;
+
 			const bodyData = {
-				name: this.state.eventName,
-				payable_amount: parseInt(this.state.generalFee),
-				team_participation: this.state.participationType === 'team'
+				name: eventName,
+				payable_amount: parseInt(generalFee),
+				team_participation: participationType === 'team',
+				rulebook_url: rulebookURL
 			};
+
+			// check and add the optional fields
+			if (activeValue) bodyData['active'] = activeValue === 'yes';
+			if (collegeFee) bodyData['payable_college'] = collegeFee;
+			if (schoolFee) bodyData['payable_school'] = schoolFee;
+
 			const response = await axiosAuth.post(API.eventCreate, bodyData);
 			console.log(response);
 			this.setState({ formLoading: false });
+			showToast('success', 'Event created successfully');
 
 			// after a successful creation, update the event list
 			this.fetchEventList();
@@ -59,6 +78,7 @@ class Events extends Component {
 			this.setState({ formLoading: false });
 			console.log(e);
 			console.log(e.response);
+			e.response && showToast('error', 'Error creating new event');
 		}
 	};
 
@@ -67,11 +87,17 @@ class Events extends Component {
 			const response = await axiosAuth.delete(API.eventID(id));
 			console.log(response);
 
+			showToast('success', 'Event successfully removed');
 			// update event list
 			this.fetchEventList();
 		} catch (e) {
 			console.log(e);
 			console.log(e.response);
+			e.response &&
+				showToast(
+					'error',
+					'An error occured while trying to remove event'
+				);
 		}
 	};
 

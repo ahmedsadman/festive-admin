@@ -29,12 +29,32 @@ const EventList = props => {
 							Active: {item.active ? 'Yes' : 'No'}
 						</Card.Meta>
 						<Card.Meta>
-							Payable Amount: {item.payable_amount}
-						</Card.Meta>
-						<Card.Meta>
 							Participation Type:{' '}
 							{(item.team_participation && 'Team') || 'Single'}
 						</Card.Meta>
+						<Card.Meta>
+							<a
+								href={item.rulebook_url}
+								target='_blank'
+								rel='noopener noreferrer'
+								style={{ color: 'teal' }}
+							>
+								Rulebook URL
+							</a>
+						</Card.Meta>
+						<Card.Meta>
+							Payable Amount: {item.payable_amount}
+						</Card.Meta>
+						{item.payable_college && (
+							<Card.Meta>
+								Payable College: {item.payable_college}
+							</Card.Meta>
+						)}
+						{item.payable_school && (
+							<Card.Meta>
+								Payable School: {item.payable_school}
+							</Card.Meta>
+						)}
 					</Card.Content>
 					<Card.Content extra>
 						<div className='ui two buttons'>
