@@ -2,7 +2,7 @@ import React from 'react';
 import { Header, Button, Card, Message } from 'semantic-ui-react';
 
 const EventList = props => {
-	const { data, error } = props;
+	const { data, error, onEventRemove } = props;
 	const renderEventList = () => {
 		if (error) {
 			return (
@@ -41,7 +41,11 @@ const EventList = props => {
 							<Button basic color='green'>
 								Edit
 							</Button>
-							<Button basic color='red'>
+							<Button
+								basic
+								color='red'
+								onClick={() => onEventRemove(item.id)}
+							>
 								Remove
 							</Button>
 						</div>

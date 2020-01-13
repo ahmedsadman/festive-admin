@@ -54,8 +54,11 @@ class Login extends Component {
 				this.props.history.push(redirectPath);
 			}
 		} catch (e) {
-			console.log(e.response);
-			this.setState({ error: e.response.data.message, loading: false });
+			console.log(e);
+			this.setState({
+				error: e.response && e.response.data.message,
+				loading: false
+			});
 		}
 	};
 

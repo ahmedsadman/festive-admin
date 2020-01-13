@@ -11,7 +11,9 @@ const EventCreate = props => {
 		rulebookURL,
 		collegeFee,
 		schoolFee,
-		generalFee
+		generalFee,
+		loading,
+		onCreate
 	} = props;
 
 	const onChange = (e, { value, name }) => {
@@ -22,7 +24,7 @@ const EventCreate = props => {
 	return (
 		<React.Fragment>
 			<Header>{title}</Header>
-			<Form>
+			<Form loading={loading}>
 				{/* In Form, control state field name (from parent) needs to be matched with 'name' field in Form element */}
 				<Form.Group widths='equal'>
 					<Form.Input
@@ -109,7 +111,11 @@ const EventCreate = props => {
 					/>
 				</Form.Group>
 
-				<Form.Button style={{ margin: '0.5em 0' }} primary>
+				<Form.Button
+					style={{ margin: '0.5em 0' }}
+					primary
+					onClick={onCreate}
+				>
 					Save
 				</Form.Button>
 			</Form>
