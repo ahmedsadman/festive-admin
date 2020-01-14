@@ -13,6 +13,12 @@ class Events extends Component {
 		eventList: null,
 		listLoading: false,
 		listError: null,
+		eventName: '',
+		rulebookURL: '',
+		payableFee: '',
+		schoolFee: '',
+		collegeFee: '',
+		universityFee: '',
 		activeValue: 'yes',
 		participationType: 'single'
 	};
@@ -24,6 +30,19 @@ class Events extends Component {
 	componentWillUnmount() {
 		this.cancelToken.cancel();
 	}
+
+	resetFormFields = () => {
+		this.setState({
+			activeValue: 'yes',
+			participationType: 'single',
+			eventName: '',
+			payableFee: '',
+			universityFee: '',
+			collegeFee: '',
+			schoolFee: '',
+			rulebookURL: ''
+		});
+	};
 
 	fetchEventList = async () => {
 		try {
@@ -47,9 +66,10 @@ class Events extends Component {
 			this.setState({ formLoading: true });
 			const {
 				eventName,
-				generalFee,
+				payableFee,
 				participationType,
 				activeValue,
+				universityFee,
 				collegeFee,
 				schoolFee,
 				rulebookURL
@@ -57,7 +77,7 @@ class Events extends Component {
 
 			const bodyData = {
 				name: eventName,
-				payable_amount: parseInt(generalFee),
+				payable_amount: parseInt(payableFee),
 				team_participation: participationType === 'team',
 				rulebook_url: rulebookURL
 			};
@@ -66,10 +86,12 @@ class Events extends Component {
 			if (activeValue) bodyData['active'] = activeValue === 'yes';
 			if (collegeFee) bodyData['payable_college'] = collegeFee;
 			if (schoolFee) bodyData['payable_school'] = schoolFee;
+			if (universityFee) bodyData['payable_university'] = universityFee;
 
 			const response = await axiosAuth.post(API.eventCreate, bodyData);
 			console.log(response);
 			this.setState({ formLoading: false });
+			this.resetFormFields();
 			showToast('success', 'Event created successfully');
 
 			// after a successful creation, update the event list
@@ -138,6 +160,12 @@ class Events extends Component {
 							loading={this.state.formLoading}
 							handleChange={this.handleChange}
 							activeValue={this.state.activeValue}
+							eventName={this.state.eventName}
+							rulebookURL={this.state.rulebookURL}
+							payableFee={this.state.payableFee}
+							collegeFee={this.state.collegeFee}
+							schoolFee={this.state.schoolFee}
+							universityFee={this.state.universityFee}
 							participationType={this.state.participationType}
 							onCreate={this.onEventCreate}
 						/>

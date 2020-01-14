@@ -11,7 +11,8 @@ const EventCreate = props => {
 		rulebookURL,
 		collegeFee,
 		schoolFee,
-		generalFee,
+		payableFee,
+		universityFee,
 		loading,
 		onCreate
 	} = props;
@@ -40,9 +41,17 @@ const EventCreate = props => {
 				<Form.Group widths='equal'>
 					<Form.Input
 						fluid
-						name='generalFee'
-						value={generalFee}
-						label='General Fee'
+						name='payableFee'
+						value={payableFee}
+						label='Payable'
+						required
+						onChange={onChange}
+					/>
+					<Form.Input
+						fluid
+						label='University Fee'
+						value={universityFee}
+						name='universityFee'
 						onChange={onChange}
 					/>
 					<Form.Input

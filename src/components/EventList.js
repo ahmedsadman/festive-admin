@@ -45,6 +45,11 @@ const EventList = props => {
 						<Card.Meta>
 							Payable Amount: {item.payable_amount}
 						</Card.Meta>
+						{item.payable_university && (
+							<Card.Meta>
+								Payable University: {item.payable_university}
+							</Card.Meta>
+						)}
 						{item.payable_college && (
 							<Card.Meta>
 								Payable College: {item.payable_college}
